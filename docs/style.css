@@ -272,12 +272,101 @@ details.more .more-body{padding:0 18px 18px}
   color:var(--on-ink-2);border-radius:20px;padding:4px 10px;white-space:nowrap}
 
 /* citation */
-.cite-grid{display:grid;grid-template-columns:.4fr .6fr;gap:44px;align-items:start}
-.bibtex{font-family:var(--mono);font-size:12.5px;line-height:1.7;background:var(--ink);color:var(--on-ink);
-  padding:20px;border-radius:12px;margin:0;overflow-x:auto;white-space:pre}
-.btn-copy{margin-top:18px;border:1px solid var(--line);background:var(--paper);color:var(--teal-deep)}
-.btn-copy:hover{background:var(--surface)}
-.acks{font-size:13px;color:var(--text-3);margin-top:18px;max-width:60ch}
+
+/* =========================================
+   CITATION SECTION — REVISED LIGHT/DARK MODE
+   ========================================= */
+
+/* Light-mode palette */
+:root {
+  --cite-section-bg: #F5F8FA;
+  --cite-panel-bg: #E7EFF2;
+  --cite-panel-text: #193449;
+  --cite-panel-border: #CBDDE3;
+}
+
+/* Automatic dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cite-section-bg: #0F1E28;
+    --cite-panel-bg: #1B3444;
+    --cite-panel-text: #E7F1F5;
+    --cite-panel-border: #345364;
+  }
+}
+
+/* Manually selected dark mode */
+:root[data-theme="dark"] {
+  --cite-section-bg: #0F1E28;
+  --cite-panel-bg: #1B3444;
+  --cite-panel-text: #E7F1F5;
+  --cite-panel-border: #345364;
+}
+
+/* Entire citation section */
+#cite {
+  background-color: var(--cite-section-bg);
+  transition: background-color 0.2s ease;
+}
+
+/* Existing two-column layout */
+.cite-grid {
+  display: grid;
+  grid-template-columns: .4fr .6fr;
+  gap: 44px;
+  align-items: start;
+}
+
+/* Main BibTeX panel */
+#cite .bibtex {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  background: var(--cite-panel-bg);
+  color: var(--cite-panel-text);
+  border: 1px solid var(--cite-panel-border);
+  padding: 24px;
+  border-radius: 12px;
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Important: prevent global code highlighting */
+#cite .bibtex code {
+  display: block;
+  background: transparent;
+  color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Copy BibTeX button */
+#cite .btn-copy {
+  margin-top: 18px;
+  border: 1px solid var(--teal);
+  background: transparent;
+  color: var(--teal);
+  transition: background-color 0.2s ease;
+}
+
+#cite .btn-copy:hover {
+  background: var(--surface-2);
+}
+
+/* Acknowledgments */
+#cite .acks {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-top: 18px;
+  max-width: 60ch;
+}
+
 
 /* footer */
 .footer{background:var(--ink);color:var(--on-ink-2);padding:40px 0 48px}
