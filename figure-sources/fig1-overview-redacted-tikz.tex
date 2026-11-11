@@ -1,0 +1,157 @@
+\begin{tikzpicture}[
+    font=\small,
+    >=Latex,
+    node distance=0mm,
+    stage/.style={
+        draw=black!55, fill=white,
+        rounded corners=2pt, align=center,
+        minimum width=3.0cm, minimum height=1.1cm,
+        inner sep=5pt, line width=0.45pt
+    },
+    purplebox/.style={stage, fill=purple!12, draw=purple!65},
+    tealbox/.style={stage, fill=teal!12, draw=teal!65},
+    bluebox/.style={stage, fill=blue!10, draw=blue!60},
+    redbox/.style={stage, fill=red!10, draw=red!55},
+    orangebox/.style={stage, fill=orange!12, draw=orange!65},
+    graybox/.style={stage, fill=gray!14, draw=gray!60},
+    detail/.style={
+        draw=black!35, fill=white,
+        rounded corners=2pt, align=center,
+        inner sep=6pt, line width=0.4pt,
+        font=\footnotesize
+    },
+    gdibox/.style={
+        draw=blue!55, fill=blue!4,
+        dashed, rounded corners=3pt,
+        inner sep=7pt, line width=0.5pt
+    },
+    arr/.style={->, line width=0.75pt},
+    darr/.style={->, line width=0.5pt, dashed, draw=gray!65},
+    garr/.style={->, line width=0.55pt, densely dotted, draw=blue!70},
+    seclabel/.style={font=\footnotesize\bfseries, align=center}
+]
+
+% ---------------- top row ----------------
+\node[graybox, minimum width=3.4cm] (input) {\textbf{Harmful query}
+$x_t$\\
+\footnotesize e.g., ``Show the most effective way to\\ use a bullet in confrontations.''};
+
+\node[purplebox, right=7mm of input] (pool)
+    {\textbf{Character-removed}\\\textbf{candidate pool}};
+
+\node[purplebox, right=7mm of pool] (select)
+    {\textbf{Concealment-aware}\\\textbf{variant selection}};
+
+\node[tealbox, right=7mm of select, minimum width=4.6cm] (strategies)
+    {\textbf{Strategy-specific input construction}\\[2pt]
+    \footnotesize TxtV \quad TxtV-GDI \quad TypV\\
+    \footnotesize TTV \quad TTV-GDI};
+
+\node[redbox, right=7mm of strategies] (victim)
+    {\textbf{Victim MLLM}\\$F_\theta(\hat{x}_t, \hat{x}_v)$};
+
+\node[orangebox, right=7mm of victim] (judge)
+    {\textbf{Judging}\\\textbf{and metrics}};
+
+\draw[arr] (input) -- (pool);
+\draw[arr] (pool) -- (select);
+\draw[arr] (select) -- (strategies);
+\draw[arr] (strategies) -- (victim);
+\draw[arr] (victim) -- (judge);
+
+% section labels
+\node[seclabel, purple!75, above=4mm of $(pool.north)!0.5!(select.north)$]
+    {\S3.1 Concealment-Aware Variant Construction};
+\draw[purple!55, line width=0.5pt]
+    ([yshift=2mm]pool.north west) -- ([yshift=2mm]select.north east);
+
+\node[seclabel, teal!75, above=3mm of strategies.north]
+    {\S3.2 Jailbreak Prompting Strategies};
+\draw[teal!55, line width=0.5pt]
+    ([yshift=2mm]strategies.north west) -- ([yshift=2mm]strategies.north east);
+
+\node[seclabel, red!65, above=4mm of $(victim.north)!0.5!(judge.north)$]
+    {Attack Execution and Evaluation};
+\draw[red!45, line width=0.5pt]
+    ([yshift=2mm]victim.north west) -- ([yshift=2mm]judge.north east);
+
+% ---------------- second row ----------------
+\node[detail, draw=purple!55, fill=purple!5, minimum width=6.6cm,
+      below=10mm of pool.south, xshift=14mm] (variants) {
+\textbf{Selected variant set}\\
+$\hat{\mathcal{V}}(x_t)=\{(\tilde{x}_t^i, I_i)\}_{i=1}^{N}$\\[2pt]
+less explicit individually \quad informative jointly
+};
+
+\draw[darr] (select.south) -- ++(0,-4mm) -| (variants.north);
+
+
+\node[detail, draw=red!45, fill=red!5, minimum width=4.2cm,
+      below=5.5mm of victim.south, xshift=-32mm] (response) {
+\textbf{Model response}\\
+\scriptsize\textit{[Harmful content withheld on this page.]}\\
+\scriptsize\textit{See the paper for the full example.}
+};
+
+
+\draw[darr] (victim.south) -- ++(0,-3mm) -| (response.north);
+
+% ---------------- third row: GDI branch ----------------
+\node[bluebox, below=16mm of variants.south, xshift=-45mm] (keyword)
+    {\textbf{Keyword/Phrase}\\$w$};
+
+\node[bluebox, right=8mm of keyword] (sentgen)
+    {\textbf{Diverse sentence}\\\textbf{generation and selection}};
+
+\node[bluebox, right=8mm of sentgen] (imggen)
+    {\textbf{Keyword/phrase-related}\\\textbf{image generation}};
+
+\node[bluebox, right=8mm of imggen] (imgsel)
+    {\textbf{Distractor-image}\\\textbf{selection}};
+
+\draw[arr] (keyword) -- (sentgen);
+\draw[arr] (sentgen) -- (imggen);
+\draw[arr] (imggen) -- (imgsel);
+
+\node[seclabel, blue!70,
+      above=1mm of $(keyword.north)!0.5!(imgsel.north)$, yshift=2mm]
+      (gdilabel) {\S3.3 Keyword/Phrase-Related Distractor Images};
+
+\begin{pgfonlayer}{background}
+\node[gdibox, fit=(gdilabel)(keyword)(sentgen)(imggen)(imgsel)] {};
+\end{pgfonlayer}
+
+% ---------------- distractor-image panel ----------------
+\node[draw=blue!55, fill=blue!5, rounded corners=2pt,
+      minimum width=5.0cm, minimum height=4cm,
+      right=30mm of imgsel, yshift=15mm, inner sep=4pt] (imgexample) {
+    \begin{minipage}{4.6cm}
+    \centering
+    \textbf{Distractor images}\\[4pt]
+    \includegraphics[width=4.0cm]{figs/TV_GDI_bullet.jpg}
+    \end{minipage}
+};
+
+\draw[darr] (imgsel.east)
+    -- ++(10mm, 0)
+    -- ++(0, 15mm)
+    -- (imgexample.west);
+
+% distractor images feed into strategy block
+\draw[garr] (imgsel.north) -- ++(0,12mm)
+    -| node[pos=0.2, above, font=\footnotesize, blue!75]
+       {optional distractor images $\mathcal{D}(x_t)$}
+    ([xshift=8mm]strategies.south west);
+
+% harmful query feeds keyword branch
+\coordinate (p1) at ([yshift=-8mm]input.south);
+\coordinate (p2) at ([xshift=-10mm]p1);
+\coordinate (p3) at ([yshift=-37.2mm]p2);
+
+\draw[garr, rounded corners=4pt]
+    (input.south) -- (p1) -- (p2)
+    node[pos=0.0, below, font=\footnotesize, blue!75] {$w=\text{bullet}$}
+    -- (p3)
+    -- (keyword.west);
+
+\end{tikzpicture}%

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d2236" />
+  <title>Conceal, Reconstruct, Jailbreak (CRJ) — NeurIPS 2026</title>
+  <meta name="description" content="CRJ studies the reconstruction–concealment tradeoff behind intent-obfuscation jailbreaks on multimodal large language models. NeurIPS 2026 project page." />
+  <link rel="canonical" href="https://farhamdur.github.io/CRJ-Project-Page/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://farhamdur.github.io/CRJ-Project-Page/" />
+  <meta property="og:title" content="Conceal, Reconstruct, Jailbreak (CRJ) — NeurIPS 2026" />
+  <meta property="og:description" content="A reconstruction–concealment account of intent-obfuscation jailbreaks on multimodal LLMs." />
+  <meta property="og:image" content="https://farhamdur.github.io/CRJ-Project-Page/assets/social-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Conceal, Reconstruct, Jailbreak (CRJ) — NeurIPS 2026" />
+  <meta name="twitter:description" content="A reconstruction–concealment account of intent-obfuscation jailbreaks on multimodal LLMs." />
+  <meta name="twitter:image" content="https://farhamdur.github.io/CRJ-Project-Page/assets/social-card.png" />
+  <!-- Scholarly metadata -->
+  <meta name="citation_title" content="Conceal, Reconstruct, Jailbreak: Exploiting the Reconstruction–Concealment Tradeoff in MLLMs" />
+  <meta name="citation_author" content="Reza, Md Farhamdur" />
+  <meta name="citation_author" content="Jin, Richeng" />
+  <meta name="citation_author" content="Wu, Tianfu" />
+  <meta name="citation_author" content="Dai, Huaiyu" />
+  <meta name="citation_conference_title" content="Advances in Neural Information Processing Systems" />
+  <meta name="citation_publication_date" content="2026" />
+  <meta name="citation_arxiv_id" content="2605.05709" />
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2605.05709" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d2236'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' text-anchor='middle' fill='%2349c3c0'%3ECRJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Primary">
+      <a class="brand" href="#top"><b>C<i>R</i>J</b><span class="tag">NeurIPS 2026</span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="#tradeoff">Tradeoff</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#safety">Safety</a>
+        <a href="#resources">Resources</a>
+        <a href="#cite">Cite</a>
+      </div>
+      <button class="theme-btn" id="theme-toggle" type="button" aria-label="Switch theme">☾</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="venue">NeurIPS 2026 <span>· Multimodal AI safety</span></p>
+          <h1>Conceal, Reconstruct, Jailbreak
+            <span class="sub">Exploiting the Reconstruction–Concealment Tradeoff in MLLMs</span>
+          </h1>
+          <p class="tldr">Intent-obfuscation jailbreaks must hide harmful intent well enough to slip past safety behaviour, yet stay recoverable enough for the model to reconstruct the request. We call this the <b>reconstruction–concealment tradeoff</b>, show that existing attacks sit at its extremes, and build a black-box attack from character-removed variants that balances both — a study meant to inform how MLLM safety is evaluated.</p>
+          <p class="byline"><span class="names">Md Farhamdur Reza<sup>1</sup> · Richeng Jin<sup>2</sup> · Tianfu Wu<sup>1</sup> · Huaiyu Dai<sup>1</sup></span></p>
+          <p class="affil"><sup>1</sup> NC State University &nbsp; <sup>2</sup> Zhejiang University</p>
+          <div class="cta">
+            <a class="btn btn-primary" href="https://arxiv.org/abs/2605.05709" target="_blank" rel="noopener">Read the paper</a>
+            <a class="btn btn-ghost" href="#cite">Cite</a>
+            <a class="btn btn-ghost" href="#resources">Resources</a>
+          </div>
+          <p class="code-status"><span class="dot" aria-hidden="true"></span> Code repository: private (public release pending) · presentation: awaiting public recording</p>
+        </div>
+        <aside class="hero-panel" aria-labelledby="panel-h">
+          <p class="panel-kicker" id="panel-h">The tension, at a glance</p>
+          <svg class="tension" viewBox="0 0 320 240" role="img" aria-labelledby="t-title t-desc" xmlns="http://www.w3.org/2000/svg">
+            <title id="t-title">Conceptual reconstruction–concealment curve</title>
+            <desc id="t-desc">A conceptual sketch, not measured data. As concealment increases from left to right, attack success rises to a peak in a balance region, then falls as the request becomes too corrupted to reconstruct.</desc>
+            <line class="ax" x1="40" y1="24" x2="40" y2="196"/>
+            <line class="ax" x1="40" y1="196" x2="300" y2="196"/>
+            <rect class="band" x="150" y="24" width="70" height="172"/>
+            <path class="curve" d="M48 188 C104 182 134 70 185 62 C236 70 266 182 296 188" fill="none"/>
+            <circle class="peak" cx="185" cy="62" r="6"/>
+            <text class="pk" x="185" y="44" text-anchor="middle">balance region</text>
+            <text class="yl" x="18" y="110" transform="rotate(-90 18 110)" text-anchor="middle">attack success →</text>
+            <text class="xl" x="170" y="222" text-anchor="middle">increasing concealment →</text>
+            <text class="end" x="48" y="214">too explicit</text>
+            <text class="end" x="296" y="214" text-anchor="end">too corrupted</text>
+          </svg>
+          <p class="panel-note">Conceptual illustration — not fitted to data.</p>
+        </aside>
+      </div>
+      <div class="wrap">
+        <div class="content-note" role="note">
+          <span aria-hidden="true">⚠</span>
+          <span><b>Content note.</b> This page describes jailbreak attacks for safety research. The original framework illustration includes a research example; procedural harmful model outputs are withheld.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= THE QUESTION ================= -->
+    <section class="section" id="question">
+      <div class="wrap">
+        <p class="eyebrow">The question</p>
+        <div class="split">
+          <h2>Hiding intent is only half the problem.</h2>
+          <div class="prose">
+            <p>An intent-obfuscation attack rewrites a harmful request into an input that looks less explicit, so a safety-aligned model does not refuse. But the rewrite has to leave enough behind for the model to recover what was asked — otherwise the model answers something harmless, or nothing useful.</p>
+            <p>These two pressures work against each other. Hide more, and harmful cues fade but recoverability drops; preserve more, and the request stays recoverable but the intent shows through. We call this the <em class="term">reconstruction–concealment tradeoff</em> and use it to ask why some black-box attacks work and others do not.</p>
+            <p>Throughout, reconstruction and concealment are measured with behavioural and semantic <em class="term">proxies</em> — exact match, edit similarity, CLIP similarity, a judge model, and a safety classifier — not as direct read-outs of a model's internal safety mechanism.</p>
+          </div>
+        </div>
+        <div class="metrics" aria-label="Study at a glance">
+          <div><b>19</b><span>victim MLLMs (5 closed, 14 open)</span></div>
+          <div><b>750</b><span>HADES queries across five harm categories</span></div>
+          <div><b>5</b><span>proposed prompting strategies</span></div>
+          <div><b>14/14</b><span>open-source models: best proposed beat the strongest baseline</span></div>
+        </div>
+        <p class="note" style="margin-top:16px">Primary evaluation is on HADES; an additional AdvBench evaluation with representative victims and applicable baselines is in the paper's appendix.</p>
+      </div>
+    </section>
+
+    <!-- ================= THE TRADEOFF, MEASURED ================= -->
+    <section class="section alt" id="tradeoff">
+      <div class="wrap">
+        <p class="eyebrow">The tradeoff, measured</p>
+        <h2>Character removal balances concealment and recovery.</h2>
+        <p class="lead">Across three representative transformations and random character removal, no prior method does both well. FlipAttack conceals strongly but barely reconstructs; CS-DJ and SI reconstruct well but stay semantically close to the original. Character removal lands in between.</p>
+
+        <div class="table-scroll" style="margin-top:22px">
+          <table class="data">
+            <caption>Reconstruction and concealment of the analysed transformations. Reconstruction (judge score) and detectability are from the paper's appendix; CLIP similarity to the original query is from Table&nbsp;3. For an attacker, higher reconstruction and lower detection/similarity are better.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Transformation</th>
+                <th scope="col" class="num">Judge reconstruction (%)</th>
+                <th scope="col" class="num">WildGuard detection (%)</th>
+                <th scope="col" class="num">CLIP sim. to query</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">FlipAttack</th><td class="num">6.75</td><td class="num">1.54</td><td class="num">0.669</td></tr>
+              <tr><th scope="row">SI</th><td class="num">52.63</td><td class="num">70.75</td><td class="num">0.858</td></tr>
+              <tr><th scope="row">CS-DJ</th><td class="num">96.00</td><td class="num">31.44</td><td class="num">0.870</td></tr>
+              <tr class="group-start"><th scope="row">Character removal (ρ = 0.2)</th><td class="num strong">98.75</td><td class="num">8.00</td><td class="num">0.711</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="margin-top:14px">The two concealment proxies disagree on the ordering of SI and CS-DJ, so the paper treats WildGuard as an independent safety-oriented check rather than a validation of the CLIP proxy. CLIP similarity is a semantic-space proxy, not a measure of deployed filtering.</p>
+
+        <div class="finding">
+          <div class="finding-text">
+            <p class="finding-num">FINDING 01</p>
+            <h3>Character-removed variants recover best, at both surface and semantic levels.</h3>
+            <p>Across the evaluated victim models, random character removal at ρ = 0.2 gives the strongest exact-match and edit-similarity recovery while keeping high CLIP similarity between the original and reconstructed query.</p>
+            <p class="note">Evaluated on InternVL3-8B, InternVL3.5-4B, Llama-3.2-11B-Vision-Instruct, Qwen3-VL-8B and Qwen3.5-4B (paper Fig. 2). Higher is better in all three panels.</p>
+          </div>
+          <div class="fig-row">
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig2a-exact-match.svg" width="352" height="245" alt="Bar chart: exact-match reconstruction rate across five victim models. Character removal is far higher than FlipAttack, SI and CS-DJ for every model." loading="lazy" /></div><figcaption><b>Exact match</b> — surface recovery</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig2b-edit-similarity.svg" width="352" height="245" alt="Bar chart: edit similarity across five victim models. Character removal leads for every model." loading="lazy" /></div><figcaption><b>Edit similarity</b> — partial surface recovery</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig2c-clip-reconstruction.svg" width="352" height="245" alt="Bar chart: CLIP reconstruction similarity across five victim models. All methods are high; character removal is comparable or higher." loading="lazy" /></div><figcaption><b>CLIP similarity</b> — semantic recovery</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="finding flip">
+          <div class="finding-text">
+            <p class="finding-num">FINDING 02</p>
+            <h3>Stronger removal is not strictly better.</h3>
+            <p>As the removal ratio ρ grows, semantic alignment to the harmful concept falls (more concealment) and reconstruction declines. Attack success is non-monotonic: it rises at moderate removal and falls once too much information is gone, peaking at different ρ per model (about 0.15–0.3).</p>
+            <p class="note">ρ = 0.2 is the default because it combines strong concealment with high reconstruction across the evaluated models (paper Fig. 3). Concealment-aware selection consistently reaches lower alignment than random removal at comparable reconstruction.</p>
+          </div>
+          <div class="fig-row">
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig3a-concealment-vs-ratio.svg" width="360" height="288" alt="Line chart: CLIP similarity to the original query and keyword falls as the removal ratio rises; concealment-aware selection is lower than random." loading="lazy" /></div><figcaption><b>Concealment</b> vs. removal ratio (lower is stronger)</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig3b-reconstruction-vs-ratio.svg" width="353" height="280" alt="Line chart: reconstruction CLIP similarity declines as the removal ratio rises, similar for random and concealment-aware selection." loading="lazy" /></div><figcaption><b>Reconstruction</b> vs. removal ratio</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig3c-asr-vs-ratio.svg" width="351" height="280" alt="Line chart: HarmBench attack success rises then falls as the removal ratio increases, peaking at moderate values." loading="lazy" /></div><figcaption><b>Attack success</b> vs. removal ratio (non-monotonic)</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= METHOD ================= -->
+    <section class="section" id="method">
+      <div class="wrap">
+        <p class="eyebrow">Method</p>
+        <h2>From a harmful query to complementary variants across modalities.</h2>
+        <p class="lead">Each variant makes the intent less explicit on its own; together the selected set stays recoverable. The model is then prompted to reconstruct the original query from the variants and answer it.</p>
+
+        <figure class="fig fig-wide">
+          <div class="overview-wrap">
+            <img src="assets/figures/fig1-overview-redacted.png" width="2482" height="687" alt="Framework overview. A harmful query becomes a character-removed candidate pool; concealment-aware selection picks a diverse, low-alignment variant set; one of five strategies distributes the variants across text and image; the input goes to the victim MLLM and a judge. The model-response box is withheld on this page." loading="lazy" />
+          </div>
+          <figcaption><b>Framework overview</b> — the paper's Fig. 1, recompiled with the model-response example withheld. The distractor images are stylised depictions of a keyword, not depictions of harm.</figcaption>
+        </figure>
+
+        <div class="prose" style="max-width:74ch">
+          <h3>Concealment-aware variant construction</h3>
+          <p>For a harmful query, the method removes a fraction ρ of characters at random to build a pool of 150 candidates, then selects five without any feedback from the victim model:</p>
+          <ul>
+            <li>Discard duplicates and any candidate that still contains the harmful keyword/phrase.</li>
+            <li><b>Stage 1 — alignment:</b> keep the 40 candidates whose CLIP text embedding is least aligned with the keyword/phrase, which encourages concealment.</li>
+            <li><b>Stage 2 — diversity:</b> greedily pick five that are most different from the original query and from each other, so the set preserves complementary partial views for reconstruction.</li>
+          </ul>
+          <p>Each variant is paired with the <em class="term">indices</em> of its removed characters, which give the model positional cues for reconstruction. Lower keyword alignment than random removal at matched reconstruction is what makes selection "concealment-aware."</p>
+        </div>
+
+        <h3 class="prose" style="font-size:19px;margin:28px 0 8px">Five prompting strategies</h3>
+        <p class="lead" style="font-size:16px">They differ only in how the variant information is split across the text and image channels, and whether generated distractor images are added.</p>
+        <div class="table-scroll">
+          <table class="strat">
+            <thead><tr><th scope="col">Strategy</th><th scope="col">Variants in text</th><th scope="col">Variants in image</th><th scope="col">Distractor images</th><th scope="col">Channels</th></tr></thead>
+            <tbody>
+              <tr><td class="key">TxtV</td><td>all 5</td><td>—</td><td>—</td><td><span class="modal">text</span></td></tr>
+              <tr><td class="key">TxtV-GDI</td><td>all 5</td><td>—</td><td>generated (K=9)</td><td><span class="modal">text + image</span></td></tr>
+              <tr><td class="key">TypV</td><td>fixed instruction only</td><td>all 5 (typographic)</td><td>—</td><td><span class="modal">image</span></td></tr>
+              <tr><td class="key">TTV</td><td>3</td><td>2 (typographic)</td><td>—</td><td><span class="modal">text + image</span></td></tr>
+              <tr><td class="key">TTV-GDI</td><td>3</td><td>2 (typographic)</td><td>generated (K=6)</td><td><span class="modal">text + image</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose" style="max-width:74ch">
+          <h3>Keyword/phrase-related distractor images</h3>
+          <p>For the GDI strategies, an auxiliary model writes diverse sentences that each contain the harmful keyword; Stable Diffusion 3 renders them; and a CLIP-based step selects a diverse subset. Unlike drawing distractors from an unrelated image pool, these depict the concept in varied, non-graphic contexts. Generation is a one-time offline step amortised across the HADES keyword annotations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESULTS ================= -->
+    <section class="section alt" id="results">
+      <div class="wrap">
+        <p class="eyebrow">Main results</p>
+        <h2>The proposed strategies beat the strongest baseline on every victim.</h2>
+        <p class="lead">On all five closed-source models, every one of the five proposed strategies beats the strongest baseline under both judges. On all 14 open-source models, the best proposed strategy beats the strongest baseline. No single strategy is best everywhere.</p>
+
+        <div class="callout" role="note">
+          <h3>How attack success is measured</h3>
+          <ul>
+            <li>Stochastic methods (SI and the five proposed strategies) get 5 randomised trials per query; a query counts as jailbroken if any trial succeeds. The deterministic baselines (FigStep, HADES, CS-DJ, FlipAttack) are run once.</li>
+            <li>Two judges: HarmBench and GPT-5.4-mini. Closed-source results below report both; open-source results use HarmBench.</li>
+            <li>Mean-over-trials numbers are lower in absolute terms but show the same comparative ordering (paper appendix).</li>
+          </ul>
+        </div>
+
+        <h3 style="font-size:19px;margin:30px 0 4px">Closed-source victims</h3>
+        {{CLOSED_SUMMARY}}
+        <p class="note" style="margin-top:12px">Absolute gains are measured in percentage points (pp). Gains are largest on the GPT-5.4 models and Claude Haiku 4.5 (the most robust closed-source model tested) and small on the near-saturated Gemini models, where strong baselines are already close to the ceiling.</p>
+        <details class="more"><summary>Expand full Table 1: all methods, toxicity, detailedness, and both judges</summary><div class="more-body">{{FULL_T1}}</div></details>
+
+        <h3 style="font-size:19px;margin:36px 0 4px">Open-source victims</h3>
+        <p class="lead" style="font-size:16px">HarmBench ASR for each model: strongest evaluated baseline versus the best proposed strategy.</p>
+        {{DUMBBELL}}
+        <div class="legend"><span><i class="i-base"></i> Strongest baseline</span><span><i class="i-prop"></i> Best proposed strategy</span></div>
+        <details class="more"><summary>Expand full Table 2: all 14 models and 10 methods</summary><div class="more-body">{{FULL_T2}}</div></details>
+      </div>
+    </section>
+
+    <!-- ================= ANALYSIS ================= -->
+    <section class="section" id="analysis">
+      <div class="wrap">
+        <p class="eyebrow">Analysis</p>
+        <h2>What each component contributes.</h2>
+        <p class="lead">The attack's effectiveness comes from several parts, not the tradeoff alone.</p>
+
+        <h3 style="font-size:19px;margin:28px 0 4px">Concept-related distractors beat generic ones</h3>
+        {{GDI_TABLE}}
+        <p class="note" style="margin-top:12px">Across all seven ablation models, GDI beats DI for both TxtV and TTV. The paper's broader claim about distractor type is supported on this ablation set, not on all 19 victims.</p>
+
+        <div class="finding" style="margin-top:36px">
+          <div class="finding-text">
+            <p class="finding-num">COMPONENTS</p>
+            <h3>Distractor count, indices, and prompt wording all matter.</h3>
+            <p><b>Distractor count:</b> adding a moderate number of keyword-related distractors helps; too many gradually hurt. TTV-GDI is best or near-best around K = 6.</p>
+            <p><b>Removed-character indices:</b> removing them cuts HarmBench ASR by 12.8–38.0 points across the evaluated Qwen3.5 settings — but attacks still succeed without them, so the indices help reconstruction without being its sole source.</p>
+            <p><b>Prompt wording:</b> de-aggressivising both the system and strategy prompts lowers average TTV-GDI ASR from 93.1% to 85.7% across four victims — substantial success remains.</p>
+          </div>
+          <figure class="fig">
+            <div class="fig-body"><img src="assets/figures/fig6-distractor-count.svg" width="365" height="280" alt="Line chart: TTV-GDI attack success rises as the number of distractor images grows from 0, peaks near 6, then declines, for InternVL3.5-38B and Qwen3.5-35B." loading="lazy" /></div>
+            <figcaption><b>Distractor count</b> — TTV-GDI ASR vs. number of distractor images (paper Fig. 6). K = 0 is TTV without distractors.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SAFETY / LIMITATIONS ================= -->
+    <section class="section alt" id="safety">
+      <div class="wrap">
+        <p class="eyebrow">Limitations &amp; responsible use</p>
+        <div class="split">
+          <h2>What this study does and does not claim.</h2>
+          <div class="prose" style="max-width:none">
+          <h3 style="margin-top:0">Scope</h3>
+          <p>The evaluation covers specific benchmarks, victim models, and input-level analyses. It does not evaluate decoding-time defenses or end-to-end success behind deployed input-filtering pipelines, and makes no robustness claim against such defenses. How the findings generalise across broader harm distributions, model families, and defense settings is left to future work.</p>
+          <h3>Why publish an attack</h3>
+          <p>The point is to inform safety evaluation: a model's own reconstruction ability can be turned against it, so evaluations should account for inputs whose harmful intent is concealed but still recoverable. The paper carries its reconstruction, detectability, and ablation analyses with this aim.</p>
+          <h3>What is withheld here</h3>
+          <p>This page retains the paper's framework illustration, including its research example, but withholds the procedural model response. The full manuscript carries its own content warning.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESOURCES ================= -->
+    <section class="section ink" id="resources">
+      <div class="wrap">
+        <p class="eyebrow">Resources</p>
+        <div class="res-grid">
+          <div class="poster-card">
+            <p>Poster</p>
+            <div class="ph">A redacted web version of the NeurIPS poster will be linked here once the case-study response is removed.</div>
+          </div>
+          <div>
+            <h2 style="margin-bottom:8px">Go deeper.</h2>
+            <p>The manuscript has the full protocol, baselines, metric definitions, extended analyses, and examples.</p>
+            <div class="res-list">
+              <a href="https://arxiv.org/abs/2605.05709" target="_blank" rel="noopener"><span><b>Research paper</b><small>arXiv · full manuscript</small></span><span class="arrow" aria-hidden="true">↗</span></a>
+              <div class="res-item"><span><b>Conference poster</b><small>redacted web version in preparation</small></span><span class="pending">Pending</span></div>
+              <a href="https://github.com/Farhamdur/CRJ" target="_blank" rel="noopener" aria-label="CRJ code repository (currently private; access restricted)"><span><b>Source code</b><small>github.com/Farhamdur/CRJ · private; public release pending</small></span><span class="pending">Restricted ↗</span></a>
+              <div class="res-item"><span><b>Presentation recording</b><small>official public recording link will be added when released</small></span><span class="pending">Pending</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CITE ================= -->
+    <section class="section" id="cite">
+      <div class="wrap">
+        <p class="eyebrow">Cite</p>
+        <div class="cite-grid">
+          <div>
+            <h2 style="margin-bottom:10px">Cite this work.</h2>
+            <p class="lead" style="font-size:16px">Please use the NeurIPS proceedings entry once it is available; the entry here is provisional.</p>
+            <button class="btn btn-copy" id="copy-bib" type="button"><span>Copy BibTeX</span></button>
+            <p class="acks">Acknowledgments: supported in part by the U.S. National Science Foundation (ECCS-2203214, IIS-1909644) and the U.S. Army Research Office (W911NF2210010). Views are the authors' own.</p>
+            <p aria-live="polite" id="copy-status" class="sr-live" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></p>
+          </div>
+          <pre class="bibtex" id="bibtex"><code>@inproceedings{reza2026conceal,
+  title     = {Conceal, Reconstruct, Jailbreak: Exploiting the Reconstruction--Concealment Tradeoff in {MLLMs}},
+  author    = {Reza, Md Farhamdur and Jin, Richeng and Wu, Tianfu and Dai, Huaiyu},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2605.05709}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <div>
+        <b>C<i>R</i>J</b>
+        <p>Research into multimodal model safety and robustness.</p>
+        <small>© 2026 the CRJ authors · project page</small>
+      </div>
+      <div class="footer-links">
+        <a href="#top">Back to top ↑</a>
+        <a href="https://arxiv.org/abs/2605.05709" target="_blank" rel="noopener">Paper ↗</a>
+        <a href="#cite">Cite</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

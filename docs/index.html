@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d2236" />
+  <title>Conceal, Reconstruct, Jailbreak (CRJ) — NeurIPS 2026</title>
+  <meta name="description" content="CRJ studies the reconstruction–concealment tradeoff behind intent-obfuscation jailbreaks on multimodal large language models. NeurIPS 2026 project page." />
+  <link rel="canonical" href="https://farhamdur.github.io/CRJ-Project-Page/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://farhamdur.github.io/CRJ-Project-Page/" />
+  <meta property="og:title" content="Conceal, Reconstruct, Jailbreak (CRJ) — NeurIPS 2026" />
+  <meta property="og:description" content="A reconstruction–concealment account of intent-obfuscation jailbreaks on multimodal LLMs." />
+  <meta property="og:image" content="https://farhamdur.github.io/CRJ-Project-Page/assets/social-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Conceal, Reconstruct, Jailbreak (CRJ) — NeurIPS 2026" />
+  <meta name="twitter:description" content="A reconstruction–concealment account of intent-obfuscation jailbreaks on multimodal LLMs." />
+  <meta name="twitter:image" content="https://farhamdur.github.io/CRJ-Project-Page/assets/social-card.png" />
+  <!-- Scholarly metadata -->
+  <meta name="citation_title" content="Conceal, Reconstruct, Jailbreak: Exploiting the Reconstruction–Concealment Tradeoff in MLLMs" />
+  <meta name="citation_author" content="Reza, Md Farhamdur" />
+  <meta name="citation_author" content="Jin, Richeng" />
+  <meta name="citation_author" content="Wu, Tianfu" />
+  <meta name="citation_author" content="Dai, Huaiyu" />
+  <meta name="citation_conference_title" content="Advances in Neural Information Processing Systems" />
+  <meta name="citation_publication_date" content="2026" />
+  <meta name="citation_arxiv_id" content="2605.05709" />
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2605.05709" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d2236'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' text-anchor='middle' fill='%2349c3c0'%3ECRJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Primary">
+      <a class="brand" href="#top"><b>C<i>R</i>J</b><span class="tag">NeurIPS 2026</span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="#tradeoff">Tradeoff</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#safety">Safety</a>
+        <a href="#resources">Resources</a>
+        <a href="#cite">Cite</a>
+      </div>
+      <button class="theme-btn" id="theme-toggle" type="button" aria-label="Switch theme">☾</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="venue">NeurIPS 2026 <span>· Multimodal AI safety</span></p>
+          <h1>Conceal, Reconstruct, Jailbreak
+            <span class="sub">Exploiting the Reconstruction–Concealment Tradeoff in MLLMs</span>
+          </h1>
+          <p class="tldr">Intent-obfuscation jailbreaks must hide harmful intent well enough to slip past safety behaviour, yet stay recoverable enough for the model to reconstruct the request. We call this the <b>reconstruction–concealment tradeoff</b>, show that existing attacks sit at its extremes, and build a black-box attack from character-removed variants that balances both — a study meant to inform how MLLM safety is evaluated.</p>
+          <p class="byline"><span class="names">Md Farhamdur Reza<sup>1</sup> · Richeng Jin<sup>2</sup> · Tianfu Wu<sup>1</sup> · Huaiyu Dai<sup>1</sup></span></p>
+          <p class="affil"><sup>1</sup> NC State University &nbsp; <sup>2</sup> Zhejiang University</p>
+          <div class="cta">
+            <a class="btn btn-primary" href="https://arxiv.org/abs/2605.05709" target="_blank" rel="noopener">Read the paper</a>
+            <a class="btn btn-ghost" href="#cite">Cite</a>
+            <a class="btn btn-ghost" href="#resources">Resources</a>
+          </div>
+          <p class="code-status"><span class="dot" aria-hidden="true"></span> Code repository: private (public release pending) · presentation: awaiting public recording</p>
+        </div>
+        <aside class="hero-panel" aria-labelledby="panel-h">
+          <p class="panel-kicker" id="panel-h">The tension, at a glance</p>
+          <svg class="tension" viewBox="0 0 320 240" role="img" aria-labelledby="t-title t-desc" xmlns="http://www.w3.org/2000/svg">
+            <title id="t-title">Conceptual reconstruction–concealment curve</title>
+            <desc id="t-desc">A conceptual sketch, not measured data. As concealment increases from left to right, attack success rises to a peak in a balance region, then falls as the request becomes too corrupted to reconstruct.</desc>
+            <line class="ax" x1="40" y1="24" x2="40" y2="196"/>
+            <line class="ax" x1="40" y1="196" x2="300" y2="196"/>
+            <rect class="band" x="150" y="24" width="70" height="172"/>
+            <path class="curve" d="M48 188 C104 182 134 70 185 62 C236 70 266 182 296 188" fill="none"/>
+            <circle class="peak" cx="185" cy="62" r="6"/>
+            <text class="pk" x="185" y="44" text-anchor="middle">balance region</text>
+            <text class="yl" x="18" y="110" transform="rotate(-90 18 110)" text-anchor="middle">attack success →</text>
+            <text class="xl" x="170" y="222" text-anchor="middle">increasing concealment →</text>
+            <text class="end" x="48" y="214">too explicit</text>
+            <text class="end" x="296" y="214" text-anchor="end">too corrupted</text>
+          </svg>
+          <p class="panel-note">Conceptual illustration — not fitted to data.</p>
+        </aside>
+      </div>
+      <div class="wrap">
+        <div class="content-note" role="note">
+          <span aria-hidden="true">⚠</span>
+          <span><b>Content note.</b> This page describes jailbreak attacks for safety research. The original framework illustration includes a research example; procedural harmful model outputs are withheld.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= THE QUESTION ================= -->
+    <section class="section" id="question">
+      <div class="wrap">
+        <p class="eyebrow">The question</p>
+        <div class="split">
+          <h2>Hiding intent is only half the problem.</h2>
+          <div class="prose">
+            <p>An intent-obfuscation attack rewrites a harmful request into an input that looks less explicit, so a safety-aligned model does not refuse. But the rewrite has to leave enough behind for the model to recover what was asked — otherwise the model answers something harmless, or nothing useful.</p>
+            <p>These two pressures work against each other. Hide more, and harmful cues fade but recoverability drops; preserve more, and the request stays recoverable but the intent shows through. We call this the <em class="term">reconstruction–concealment tradeoff</em> and use it to ask why some black-box attacks work and others do not.</p>
+            <p>Throughout, reconstruction and concealment are measured with behavioural and semantic <em class="term">proxies</em> — exact match, edit similarity, CLIP similarity, a judge model, and a safety classifier — not as direct read-outs of a model's internal safety mechanism.</p>
+          </div>
+        </div>
+        <div class="metrics" aria-label="Study at a glance">
+          <div><b>19</b><span>victim MLLMs (5 closed, 14 open)</span></div>
+          <div><b>750</b><span>HADES queries across five harm categories</span></div>
+          <div><b>5</b><span>proposed prompting strategies</span></div>
+          <div><b>14/14</b><span>open-source models: best proposed beat the strongest baseline</span></div>
+        </div>
+        <p class="note" style="margin-top:16px">Primary evaluation is on HADES; an additional AdvBench evaluation with representative victims and applicable baselines is in the paper's appendix.</p>
+      </div>
+    </section>
+
+    <!-- ================= THE TRADEOFF, MEASURED ================= -->
+    <section class="section alt" id="tradeoff">
+      <div class="wrap">
+        <p class="eyebrow">The tradeoff, measured</p>
+        <h2>Character removal balances concealment and recovery.</h2>
+        <p class="lead">Across three representative transformations and random character removal, no prior method does both well. FlipAttack conceals strongly but barely reconstructs; CS-DJ and SI reconstruct well but stay semantically close to the original. Character removal lands in between.</p>
+
+        <div class="table-scroll" style="margin-top:22px">
+          <table class="data">
+            <caption>Reconstruction and concealment of the analysed transformations. Reconstruction (judge score) and detectability are from the paper's appendix; CLIP similarity to the original query is from Table&nbsp;3. For an attacker, higher reconstruction and lower detection/similarity are better.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Transformation</th>
+                <th scope="col" class="num">Judge reconstruction (%)</th>
+                <th scope="col" class="num">WildGuard detection (%)</th>
+                <th scope="col" class="num">CLIP sim. to query</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">FlipAttack</th><td class="num">6.75</td><td class="num">1.54</td><td class="num">0.669</td></tr>
+              <tr><th scope="row">SI</th><td class="num">52.63</td><td class="num">70.75</td><td class="num">0.858</td></tr>
+              <tr><th scope="row">CS-DJ</th><td class="num">96.00</td><td class="num">31.44</td><td class="num">0.870</td></tr>
+              <tr class="group-start"><th scope="row">Character removal (ρ = 0.2)</th><td class="num strong">98.75</td><td class="num">8.00</td><td class="num">0.711</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="margin-top:14px">The two concealment proxies disagree on the ordering of SI and CS-DJ, so the paper treats WildGuard as an independent safety-oriented check rather than a validation of the CLIP proxy. CLIP similarity is a semantic-space proxy, not a measure of deployed filtering.</p>
+
+        <div class="finding">
+          <div class="finding-text">
+            <p class="finding-num">FINDING 01</p>
+            <h3>Character-removed variants recover best, at both surface and semantic levels.</h3>
+            <p>Across the evaluated victim models, random character removal at ρ = 0.2 gives the strongest exact-match and edit-similarity recovery while keeping high CLIP similarity between the original and reconstructed query.</p>
+            <p class="note">Evaluated on InternVL3-8B, InternVL3.5-4B, Llama-3.2-11B-Vision-Instruct, Qwen3-VL-8B and Qwen3.5-4B (paper Fig. 2). Higher is better in all three panels.</p>
+          </div>
+          <div class="fig-row">
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig2a-exact-match.svg" width="352" height="245" alt="Bar chart: exact-match reconstruction rate across five victim models. Character removal is far higher than FlipAttack, SI and CS-DJ for every model." loading="lazy" /></div><figcaption><b>Exact match</b> — surface recovery</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig2b-edit-similarity.svg" width="352" height="245" alt="Bar chart: edit similarity across five victim models. Character removal leads for every model." loading="lazy" /></div><figcaption><b>Edit similarity</b> — partial surface recovery</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig2c-clip-reconstruction.svg" width="352" height="245" alt="Bar chart: CLIP reconstruction similarity across five victim models. All methods are high; character removal is comparable or higher." loading="lazy" /></div><figcaption><b>CLIP similarity</b> — semantic recovery</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="finding flip">
+          <div class="finding-text">
+            <p class="finding-num">FINDING 02</p>
+            <h3>Stronger removal is not strictly better.</h3>
+            <p>As the removal ratio ρ grows, semantic alignment to the harmful concept falls (more concealment) and reconstruction declines. Attack success is non-monotonic: it rises at moderate removal and falls once too much information is gone, peaking at different ρ per model (about 0.15–0.3).</p>
+            <p class="note">ρ = 0.2 is the default because it combines strong concealment with high reconstruction across the evaluated models (paper Fig. 3). Concealment-aware selection consistently reaches lower alignment than random removal at comparable reconstruction.</p>
+          </div>
+          <div class="fig-row">
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig3a-concealment-vs-ratio.svg" width="360" height="288" alt="Line chart: CLIP similarity to the original query and keyword falls as the removal ratio rises; concealment-aware selection is lower than random." loading="lazy" /></div><figcaption><b>Concealment</b> vs. removal ratio (lower is stronger)</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig3b-reconstruction-vs-ratio.svg" width="353" height="280" alt="Line chart: reconstruction CLIP similarity declines as the removal ratio rises, similar for random and concealment-aware selection." loading="lazy" /></div><figcaption><b>Reconstruction</b> vs. removal ratio</figcaption></figure>
+            <figure class="fig"><div class="fig-body"><img src="assets/figures/fig3c-asr-vs-ratio.svg" width="351" height="280" alt="Line chart: HarmBench attack success rises then falls as the removal ratio increases, peaking at moderate values." loading="lazy" /></div><figcaption><b>Attack success</b> vs. removal ratio (non-monotonic)</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= METHOD ================= -->
+    <section class="section" id="method">
+      <div class="wrap">
+        <p class="eyebrow">Method</p>
+        <h2>From a harmful query to complementary variants across modalities.</h2>
+        <p class="lead">Each variant makes the intent less explicit on its own; together the selected set stays recoverable. The model is then prompted to reconstruct the original query from the variants and answer it.</p>
+
+        <figure class="fig fig-wide">
+          <div class="overview-wrap">
+            <img src="assets/figures/fig1-overview-redacted.png" width="2482" height="687" alt="Framework overview. A harmful query becomes a character-removed candidate pool; concealment-aware selection picks a diverse, low-alignment variant set; one of five strategies distributes the variants across text and image; the input goes to the victim MLLM and a judge. The model-response box is withheld on this page." loading="lazy" />
+          </div>
+          <figcaption><b>Framework overview</b> — the paper's Fig. 1, recompiled with the model-response example withheld. The distractor images are stylised depictions of a keyword, not depictions of harm.</figcaption>
+        </figure>
+
+        <div class="prose" style="max-width:74ch">
+          <h3>Concealment-aware variant construction</h3>
+          <p>For a harmful query, the method removes a fraction ρ of characters at random to build a pool of 150 candidates, then selects five without any feedback from the victim model:</p>
+          <ul>
+            <li>Discard duplicates and any candidate that still contains the harmful keyword/phrase.</li>
+            <li><b>Stage 1 — alignment:</b> keep the 40 candidates whose CLIP text embedding is least aligned with the keyword/phrase, which encourages concealment.</li>
+            <li><b>Stage 2 — diversity:</b> greedily pick five that are most different from the original query and from each other, so the set preserves complementary partial views for reconstruction.</li>
+          </ul>
+          <p>Each variant is paired with the <em class="term">indices</em> of its removed characters, which give the model positional cues for reconstruction. Lower keyword alignment than random removal at matched reconstruction is what makes selection "concealment-aware."</p>
+        </div>
+
+        <h3 class="prose" style="font-size:19px;margin:28px 0 8px">Five prompting strategies</h3>
+        <p class="lead" style="font-size:16px">They differ only in how the variant information is split across the text and image channels, and whether generated distractor images are added.</p>
+        <div class="table-scroll">
+          <table class="strat">
+            <thead><tr><th scope="col">Strategy</th><th scope="col">Variants in text</th><th scope="col">Variants in image</th><th scope="col">Distractor images</th><th scope="col">Channels</th></tr></thead>
+            <tbody>
+              <tr><td class="key">TxtV</td><td>all 5</td><td>—</td><td>—</td><td><span class="modal">text</span></td></tr>
+              <tr><td class="key">TxtV-GDI</td><td>all 5</td><td>—</td><td>generated (K=9)</td><td><span class="modal">text + image</span></td></tr>
+              <tr><td class="key">TypV</td><td>fixed instruction only</td><td>all 5 (typographic)</td><td>—</td><td><span class="modal">image</span></td></tr>
+              <tr><td class="key">TTV</td><td>3</td><td>2 (typographic)</td><td>—</td><td><span class="modal">text + image</span></td></tr>
+              <tr><td class="key">TTV-GDI</td><td>3</td><td>2 (typographic)</td><td>generated (K=6)</td><td><span class="modal">text + image</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose" style="max-width:74ch">
+          <h3>Keyword/phrase-related distractor images</h3>
+          <p>For the GDI strategies, an auxiliary model writes diverse sentences that each contain the harmful keyword; Stable Diffusion 3 renders them; and a CLIP-based step selects a diverse subset. Unlike drawing distractors from an unrelated image pool, these depict the concept in varied, non-graphic contexts. Generation is a one-time offline step amortised across the HADES keyword annotations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESULTS ================= -->
+    <section class="section alt" id="results">
+      <div class="wrap">
+        <p class="eyebrow">Main results</p>
+        <h2>The proposed strategies beat the strongest baseline on every victim.</h2>
+        <p class="lead">On all five closed-source models, every one of the five proposed strategies beats the strongest baseline under both judges. On all 14 open-source models, the best proposed strategy beats the strongest baseline. No single strategy is best everywhere.</p>
+
+        <div class="callout" role="note">
+          <h3>How attack success is measured</h3>
+          <ul>
+            <li>Stochastic methods (SI and the five proposed strategies) get 5 randomised trials per query; a query counts as jailbroken if any trial succeeds. The deterministic baselines (FigStep, HADES, CS-DJ, FlipAttack) are run once.</li>
+            <li>Two judges: HarmBench and GPT-5.4-mini. Closed-source results below report both; open-source results use HarmBench.</li>
+            <li>Mean-over-trials numbers are lower in absolute terms but show the same comparative ordering (paper appendix).</li>
+          </ul>
+        </div>
+
+        <h3 style="font-size:19px;margin:30px 0 4px">Closed-source victims</h3>
+        <div class="table-scroll"><table class="data"><caption>Closed-source victims: attack success rate (%) by judge. Strongest baseline, best proposed strategy are picked per row from paper Table&nbsp;1.</caption><thead><tr><th scope="col">Victim model</th><th scope="col">Judge</th><th scope="col" class="num">Strongest baseline</th><th scope="col" class="num">Best proposed</th><th scope="col" class="num">Gain (pp)</th></tr></thead><tbody><tr class="group-start"><th scope="rowgroup" rowspan="2">GPT-5.4-nano</th><td>GPT-5.4-mini</td><td class="num">25.73<span class="who">CS-DJ</span></td><td class="num strong">78.67<span class="who">TTV-GDI</span></td><td class="num gain">+52.94</td></tr><tr><td>HarmBench</td><td class="num">14.40<span class="who">CS-DJ</span></td><td class="num strong">74.67<span class="who">TTV-GDI</span></td><td class="num gain">+60.27</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="2">GPT-5.4-mini</th><td>GPT-5.4-mini</td><td class="num">11.20<span class="who">CS-DJ</span></td><td class="num strong">79.60<span class="who">TTV-GDI</span></td><td class="num gain">+68.40</td></tr><tr><td>HarmBench</td><td class="num">7.60<span class="who">CS-DJ</span></td><td class="num strong">78.80<span class="who">TTV-GDI</span></td><td class="num gain">+71.20</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="2">Gemini-2.5-Flash</th><td>GPT-5.4-mini</td><td class="num">95.07<span class="who">FlipAttack</span></td><td class="num strong">97.73<span class="who">TxtV / TTV-GDI</span></td><td class="num gain">+2.66</td></tr><tr><td>HarmBench</td><td class="num">88.27<span class="who">FigStep</span></td><td class="num strong">98.13<span class="who">TxtV</span></td><td class="num gain">+9.86</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="2">Gemini-3.1-Flash-Lite</th><td>GPT-5.4-mini</td><td class="num">94.53<span class="who">FlipAttack</span></td><td class="num strong">98.13<span class="who">TxtV</span></td><td class="num gain">+3.60</td></tr><tr><td>HarmBench</td><td class="num">93.20<span class="who">FlipAttack</span></td><td class="num strong">98.80<span class="who">TxtV</span></td><td class="num gain">+5.60</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="2">Claude Haiku 4.5</th><td>GPT-5.4-mini</td><td class="num">6.80<span class="who">CS-DJ</span></td><td class="num strong">39.73<span class="who">TTV</span></td><td class="num gain">+32.93</td></tr><tr><td>HarmBench</td><td class="num">5.73<span class="who">CS-DJ</span></td><td class="num strong">39.33<span class="who">TTV</span></td><td class="num gain">+33.60</td></tr></tbody></table></div>
+        <p class="note" style="margin-top:12px">Absolute gains are measured in percentage points (pp). Gains are largest on the GPT-5.4 models and Claude Haiku 4.5 (the most robust closed-source model tested) and small on the near-saturated Gemini models, where strong baselines are already close to the ceiling.</p>
+        <details class="more"><summary>Expand full Table 1: all methods, toxicity, detailedness, and both judges</summary><div class="more-body"><div class="table-scroll"><table class="data dense"><caption>Paper Table&nbsp;1, all metrics. Baselines: FigStep to SI. Proposed: TxtV to TTV-GDI.</caption><thead><tr><th scope="col">Victim</th><th scope="col">Metric</th><th scope="col" class="num">FigStep</th><th scope="col" class="num">HADES</th><th scope="col" class="num">CS-DJ</th><th scope="col" class="num">FlipAttack</th><th scope="col" class="num">SI</th><th scope="col" class="num">TxtV</th><th scope="col" class="num">TxtV-GDI</th><th scope="col" class="num">TypV</th><th scope="col" class="num">TTV</th><th scope="col" class="num">TTV-GDI</th></tr></thead><tbody><tr class="group-start"><th scope="rowgroup" rowspan="4">GPT-5.4-nano</th><td>Toxicity (1–5)</td><td class="num">1.11</td><td class="num">1.05</td><td class="num">1.86</td><td class="num">1.16</td><td class="num">1.17</td><td class="num sep">2.62</td><td class="num">3.65</td><td class="num">3.38</td><td class="num">3.75</td><td class="num">4.03</td></tr><tr><td>Detailedness (0–10)</td><td class="num">1.23</td><td class="num">0.88</td><td class="num">2.75</td><td class="num">0.72</td><td class="num">1.67</td><td class="num sep">4.26</td><td class="num">6.15</td><td class="num">5.64</td><td class="num">6.42</td><td class="num">6.94</td></tr><tr><td>ASR, GPT judge (%)</td><td class="num">3.20</td><td class="num">1.33</td><td class="num">25.73</td><td class="num">4.80</td><td class="num">4.27</td><td class="num sep">42.80</td><td class="num">69.60</td><td class="num">61.07</td><td class="num">71.47</td><td class="num">78.67</td></tr><tr><td>ASR, HarmBench (%)</td><td class="num">3.33</td><td class="num">1.73</td><td class="num">14.40</td><td class="num">5.60</td><td class="num">5.07</td><td class="num sep">33.73</td><td class="num">62.40</td><td class="num">54.00</td><td class="num">68.93</td><td class="num">74.67</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="4">GPT-5.4-mini</th><td>Toxicity (1–5)</td><td class="num">1.01</td><td class="num">1.02</td><td class="num">1.40</td><td class="num">1.04</td><td class="num">1.21</td><td class="num sep">3.46</td><td class="num">3.24</td><td class="num">3.39</td><td class="num">3.80</td><td class="num">4.08</td></tr><tr><td>Detailedness (0–10)</td><td class="num">0.61</td><td class="num">0.49</td><td class="num">1.83</td><td class="num">0.66</td><td class="num">1.32</td><td class="num sep">5.23</td><td class="num">4.72</td><td class="num">5.31</td><td class="num">5.84</td><td class="num">6.30</td></tr><tr><td>ASR, GPT judge (%)</td><td class="num">0.27</td><td class="num">0.67</td><td class="num">11.20</td><td class="num">0.53</td><td class="num">5.60</td><td class="num sep">63.47</td><td class="num">58.40</td><td class="num">61.87</td><td class="num">73.20</td><td class="num">79.60</td></tr><tr><td>ASR, HarmBench (%)</td><td class="num">0.53</td><td class="num">1.73</td><td class="num">7.60</td><td class="num">1.87</td><td class="num">6.00</td><td class="num sep">63.87</td><td class="num">53.33</td><td class="num">61.07</td><td class="num">69.47</td><td class="num">78.80</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="4">Gemini-2.5-Flash</th><td>Toxicity (1–5)</td><td class="num">4.49</td><td class="num">2.18</td><td class="num">3.71</td><td class="num">4.78</td><td class="num">3.02</td><td class="num sep">4.88</td><td class="num">4.85</td><td class="num">4.83</td><td class="num">4.84</td><td class="num">4.88</td></tr><tr><td>Detailedness (0–10)</td><td class="num">7.71</td><td class="num">2.68</td><td class="num">6.14</td><td class="num">8.79</td><td class="num">4.44</td><td class="num sep">9.08</td><td class="num">9.11</td><td class="num">8.88</td><td class="num">8.83</td><td class="num">8.97</td></tr><tr><td>ASR, GPT judge (%)</td><td class="num">89.20</td><td class="num">31.33</td><td class="num">75.20</td><td class="num">95.07</td><td class="num">50.80</td><td class="num sep">97.73</td><td class="num">97.47</td><td class="num">96.93</td><td class="num">97.60</td><td class="num">97.73</td></tr><tr><td>ASR, HarmBench (%)</td><td class="num">88.27</td><td class="num">27.33</td><td class="num">44.93</td><td class="num">83.07</td><td class="num">54.93</td><td class="num sep">98.13</td><td class="num">97.60</td><td class="num">97.73</td><td class="num">97.07</td><td class="num">97.20</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="4">Gemini-3.1-Flash-Lite</th><td>Toxicity (1–5)</td><td class="num">2.92</td><td class="num">2.75</td><td class="num">3.46</td><td class="num">4.72</td><td class="num">4.02</td><td class="num sep">4.90</td><td class="num">4.76</td><td class="num">4.79</td><td class="num">4.83</td><td class="num">4.78</td></tr><tr><td>Detailedness (0–10)</td><td class="num">4.15</td><td class="num">3.96</td><td class="num">5.70</td><td class="num">8.52</td><td class="num">6.90</td><td class="num sep">8.89</td><td class="num">8.61</td><td class="num">8.63</td><td class="num">8.68</td><td class="num">8.64</td></tr><tr><td>ASR, GPT judge (%)</td><td class="num">50.13</td><td class="num">45.87</td><td class="num">64.27</td><td class="num">94.53</td><td class="num">78.67</td><td class="num sep">98.13</td><td class="num">95.47</td><td class="num">96.13</td><td class="num">96.40</td><td class="num">95.73</td></tr><tr><td>ASR, HarmBench (%)</td><td class="num">49.20</td><td class="num">42.13</td><td class="num">37.07</td><td class="num">93.20</td><td class="num">74.13</td><td class="num sep">98.80</td><td class="num">95.73</td><td class="num">95.20</td><td class="num">96.93</td><td class="num">94.53</td></tr><tr class="group-start"><th scope="rowgroup" rowspan="4">Claude Haiku 4.5</th><td>Toxicity (1–5)</td><td class="num">1.03</td><td class="num">1.01</td><td class="num">1.28</td><td class="num">1.01</td><td class="num">1.15</td><td class="num sep">2.03</td><td class="num">1.54</td><td class="num">2.42</td><td class="num">2.54</td><td class="num">2.39</td></tr><tr><td>Detailedness (0–10)</td><td class="num">0.08</td><td class="num">0.06</td><td class="num">0.80</td><td class="num">0.11</td><td class="num">0.51</td><td class="num sep">2.48</td><td class="num">1.34</td><td class="num">3.23</td><td class="num">3.46</td><td class="num">3.21</td></tr><tr><td>ASR, GPT judge (%)</td><td class="num">0.53</td><td class="num">0.67</td><td class="num">6.80</td><td class="num">0.53</td><td class="num">3.73</td><td class="num sep">27.20</td><td class="num">14.67</td><td class="num">37.87</td><td class="num">39.73</td><td class="num">35.60</td></tr><tr><td>ASR, HarmBench (%)</td><td class="num">1.33</td><td class="num">1.47</td><td class="num">5.73</td><td class="num">1.07</td><td class="num">4.67</td><td class="num sep">25.33</td><td class="num">14.53</td><td class="num">38.00</td><td class="num">39.33</td><td class="num">34.67</td></tr></tbody></table></div></div></details>
+
+        <h3 style="font-size:19px;margin:36px 0 4px">Open-source victims</h3>
+        <p class="lead" style="font-size:16px">HarmBench ASR for each model: strongest evaluated baseline versus the best proposed strategy.</p>
+        <svg class="dumbbell" viewBox="0 0 760 518" role="img" aria-labelledby="db-title db-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="db-title">Open-source victims: strongest baseline versus best proposed strategy</title>
+<desc id="db-desc">HarmBench attack success rate for 14 open-source models. For every model the best proposed strategy is above the strongest evaluated baseline. The full values are in the table below the chart.</desc>
+<line class="grid" x1="222.0" x2="222.0" y1="20" y2="494"/>
+<text class="tick" x="222.0" y="510" text-anchor="middle">0</text>
+<line class="grid" x1="332.5" x2="332.5" y1="20" y2="494"/>
+<text class="tick" x="332.5" y="510" text-anchor="middle">25</text>
+<line class="grid" x1="443.0" x2="443.0" y1="20" y2="494"/>
+<text class="tick" x="443.0" y="510" text-anchor="middle">50</text>
+<line class="grid" x1="553.5" x2="553.5" y1="20" y2="494"/>
+<text class="tick" x="553.5" y="510" text-anchor="middle">75</text>
+<line class="grid" x1="664.0" x2="664.0" y1="20" y2="494"/>
+<text class="tick" x="664.0" y="510" text-anchor="middle">100</text>
+<text class="axis-label" x="664.0" y="14" text-anchor="end">HarmBench ASR (%)</text>
+<text class="gain-head" x="756" y="14" text-anchor="end">Gain (pts)</text>
+<g><title>Kimi K2.5: strongest baseline 27.73 (FlipAttack), best proposed 99.73 (TTV-GDI)</title>
+<text class="model" x="208" y="53.5" text-anchor="end">Kimi K2.5</text>
+<line class="link" x1="344.6" x2="662.8" y1="49.0" y2="49.0"/>
+<circle class="base" cx="344.6" cy="49.0" r="5.5"/>
+<circle class="prop" cx="662.8" cy="49.0" r="6"/>
+<text class="gain" x="756" y="53.5" text-anchor="end">+72.00</text></g>
+<g><title>Llama-4-Maverick: strongest baseline 73.47 (FlipAttack), best proposed 89.20 (TxtV-GDI)</title>
+<text class="model" x="208" y="95.5" text-anchor="end">Llama-4-Maverick</text>
+<line class="link" x1="546.7" x2="616.3" y1="91.0" y2="91.0"/>
+<circle class="base" cx="546.7" cy="91.0" r="5.5"/>
+<circle class="prop" cx="616.3" cy="91.0" r="6"/>
+<text class="gain" x="756" y="95.5" text-anchor="end">+15.73</text></g>
+<g><title>Llama-3.2-11B-Vision-Instruct: strongest baseline 76.00 (FlipAttack), best proposed 95.07 (TxtV)</title>
+<text class="model" x="208" y="125.5" text-anchor="end">Llama-3.2-11B-Vision-Instruct</text>
+<line class="link" x1="557.9" x2="642.2" y1="121.0" y2="121.0"/>
+<circle class="base" cx="557.9" cy="121.0" r="5.5"/>
+<circle class="prop" cx="642.2" cy="121.0" r="6"/>
+<text class="gain" x="756" y="125.5" text-anchor="end">+19.07</text></g>
+<g><title>InternVL3-8B: strongest baseline 42.13 (CS-DJ), best proposed 97.07 (TTV)</title>
+<text class="model" x="208" y="167.5" text-anchor="end">InternVL3-8B</text>
+<line class="link" x1="408.2" x2="651.0" y1="163.0" y2="163.0"/>
+<circle class="base" cx="408.2" cy="163.0" r="5.5"/>
+<circle class="prop" cx="651.0" cy="163.0" r="6"/>
+<text class="gain" x="756" y="167.5" text-anchor="end">+54.94</text></g>
+<g><title>InternVL3.5-2B: strongest baseline 64.40 (SI), best proposed 91.47 (TxtV-GDI)</title>
+<text class="model" x="208" y="197.5" text-anchor="end">InternVL3.5-2B</text>
+<line class="link" x1="506.6" x2="626.3" y1="193.0" y2="193.0"/>
+<circle class="base" cx="506.6" cy="193.0" r="5.5"/>
+<circle class="prop" cx="626.3" cy="193.0" r="6"/>
+<text class="gain" x="756" y="197.5" text-anchor="end">+27.07</text></g>
+<g><title>InternVL3.5-4B: strongest baseline 56.27 (CS-DJ), best proposed 96.67 (TypV)</title>
+<text class="model" x="208" y="227.5" text-anchor="end">InternVL3.5-4B</text>
+<line class="link" x1="470.7" x2="649.3" y1="223.0" y2="223.0"/>
+<circle class="base" cx="470.7" cy="223.0" r="5.5"/>
+<circle class="prop" cx="649.3" cy="223.0" r="6"/>
+<text class="gain" x="756" y="227.5" text-anchor="end">+40.40</text></g>
+<g><title>InternVL3.5-8B: strongest baseline 42.27 (CS-DJ), best proposed 96.53 (TxtV-GDI)</title>
+<text class="model" x="208" y="257.5" text-anchor="end">InternVL3.5-8B</text>
+<line class="link" x1="408.8" x2="648.7" y1="253.0" y2="253.0"/>
+<circle class="base" cx="408.8" cy="253.0" r="5.5"/>
+<circle class="prop" cx="648.7" cy="253.0" r="6"/>
+<text class="gain" x="756" y="257.5" text-anchor="end">+54.26</text></g>
+<g><title>InternVL3.5-14B: strongest baseline 42.67 (CS-DJ), best proposed 95.87 (TxtV, TxtV-GDI)</title>
+<text class="model" x="208" y="287.5" text-anchor="end">InternVL3.5-14B</text>
+<line class="link" x1="410.6" x2="645.7" y1="283.0" y2="283.0"/>
+<circle class="base" cx="410.6" cy="283.0" r="5.5"/>
+<circle class="prop" cx="645.7" cy="283.0" r="6"/>
+<text class="gain" x="756" y="287.5" text-anchor="end">+53.20</text></g>
+<g><title>InternVL3.5-38B: strongest baseline 55.20 (CS-DJ), best proposed 95.20 (TxtV-GDI)</title>
+<text class="model" x="208" y="317.5" text-anchor="end">InternVL3.5-38B</text>
+<line class="link" x1="466.0" x2="642.8" y1="313.0" y2="313.0"/>
+<circle class="base" cx="466.0" cy="313.0" r="5.5"/>
+<circle class="prop" cx="642.8" cy="313.0" r="6"/>
+<text class="gain" x="756" y="317.5" text-anchor="end">+40.00</text></g>
+<g><title>Qwen3-VL-8B: strongest baseline 9.73 (FigStep), best proposed 96.67 (TxtV)</title>
+<text class="model" x="208" y="359.5" text-anchor="end">Qwen3-VL-8B</text>
+<line class="link" x1="265.0" x2="649.3" y1="355.0" y2="355.0"/>
+<circle class="base" cx="265.0" cy="355.0" r="5.5"/>
+<circle class="prop" cx="649.3" cy="355.0" r="6"/>
+<text class="gain" x="756" y="359.5" text-anchor="end">+86.94</text></g>
+<g><title>Qwen3.5-2B: strongest baseline 80.13 (FigStep), best proposed 83.60 (TxtV)</title>
+<text class="model" x="208" y="389.5" text-anchor="end">Qwen3.5-2B</text>
+<line class="link" x1="576.2" x2="591.5" y1="385.0" y2="385.0"/>
+<circle class="base" cx="576.2" cy="385.0" r="5.5"/>
+<circle class="prop" cx="591.5" cy="385.0" r="6"/>
+<text class="gain" x="756" y="389.5" text-anchor="end">+3.47</text></g>
+<g><title>Qwen3.5-4B: strongest baseline 43.33 (CS-DJ), best proposed 85.47 (TTV-GDI)</title>
+<text class="model" x="208" y="419.5" text-anchor="end">Qwen3.5-4B</text>
+<line class="link" x1="413.5" x2="599.8" y1="415.0" y2="415.0"/>
+<circle class="base" cx="413.5" cy="415.0" r="5.5"/>
+<circle class="prop" cx="599.8" cy="415.0" r="6"/>
+<text class="gain" x="756" y="419.5" text-anchor="end">+42.14</text></g>
+<g><title>Qwen3.5-9B: strongest baseline 38.13 (CS-DJ), best proposed 92.00 (TTV-GDI)</title>
+<text class="model" x="208" y="449.5" text-anchor="end">Qwen3.5-9B</text>
+<line class="link" x1="390.5" x2="628.6" y1="445.0" y2="445.0"/>
+<circle class="base" cx="390.5" cy="445.0" r="5.5"/>
+<circle class="prop" cx="628.6" cy="445.0" r="6"/>
+<text class="gain" x="756" y="449.5" text-anchor="end">+53.87</text></g>
+<g><title>Qwen3.5-35B: strongest baseline 26.00 (FlipAttack), best proposed 98.67 (TTV-GDI)</title>
+<text class="model" x="208" y="479.5" text-anchor="end">Qwen3.5-35B</text>
+<line class="link" x1="336.9" x2="658.1" y1="475.0" y2="475.0"/>
+<circle class="base" cx="336.9" cy="475.0" r="5.5"/>
+<circle class="prop" cx="658.1" cy="475.0" r="6"/>
+<text class="gain" x="756" y="479.5" text-anchor="end">+72.67</text></g>
+</svg>
+        <div class="legend"><span><i class="i-base"></i> Strongest baseline</span><span><i class="i-prop"></i> Best proposed strategy</span></div>
+        <details class="more"><summary>Expand full Table 2: all 14 models and 10 methods</summary><div class="more-body"><div class="table-scroll"><table class="data dense"><caption>Paper Table&nbsp;2: HarmBench ASR (%) on open-source victims.</caption><thead><tr><th scope="col">Victim</th><th scope="col" class="num">FigStep</th><th scope="col" class="num">HADES</th><th scope="col" class="num">CS-DJ</th><th scope="col" class="num">FlipAttack</th><th scope="col" class="num">SI</th><th scope="col" class="num">TxtV</th><th scope="col" class="num">TxtV-GDI</th><th scope="col" class="num">TypV</th><th scope="col" class="num">TTV</th><th scope="col" class="num">TTV-GDI</th></tr></thead><tbody><tr><th scope="row">Kimi K2.5</th><td class="num">1.60</td><td class="num">3.33</td><td class="num">12.27</td><td class="num">27.73</td><td class="num">15.87</td><td class="num sep">99.60</td><td class="num">99.33</td><td class="num">99.20</td><td class="num">98.80</td><td class="num">99.73</td></tr><tr><th scope="row">Llama-4-Maverick</th><td class="num">33.20</td><td class="num">25.47</td><td class="num">19.20</td><td class="num">73.47</td><td class="num">36.40</td><td class="num sep">88.53</td><td class="num">89.20</td><td class="num">87.07</td><td class="num">84.00</td><td class="num">87.33</td></tr><tr><th scope="row">Llama-3.2-11B-Vision-Instruct</th><td class="num">17.60</td><td class="num">1.33</td><td class="num">32.00</td><td class="num">76.00</td><td class="num">4.00</td><td class="num sep">95.07</td><td class="num">89.60</td><td class="num">90.27</td><td class="num">82.53</td><td class="num">82.93</td></tr><tr><th scope="row">InternVL3-8B</th><td class="num">5.60</td><td class="num">9.87</td><td class="num">42.13</td><td class="num">2.00</td><td class="num">34.80</td><td class="num sep">61.33</td><td class="num">92.40</td><td class="num">95.47</td><td class="num">97.07</td><td class="num">94.27</td></tr><tr><th scope="row">InternVL3.5-2B</th><td class="num">62.27</td><td class="num">46.27</td><td class="num">56.80</td><td class="num">1.47</td><td class="num">64.40</td><td class="num sep">84.27</td><td class="num">91.47</td><td class="num">63.47</td><td class="num">68.13</td><td class="num">66.13</td></tr><tr><th scope="row">InternVL3.5-4B</th><td class="num">19.33</td><td class="num">25.20</td><td class="num">56.27</td><td class="num">12.27</td><td class="num">40.40</td><td class="num sep">92.53</td><td class="num">95.87</td><td class="num">96.67</td><td class="num">89.60</td><td class="num">92.13</td></tr><tr><th scope="row">InternVL3.5-8B</th><td class="num">5.87</td><td class="num">18.67</td><td class="num">42.27</td><td class="num">20.93</td><td class="num">31.73</td><td class="num sep">89.73</td><td class="num">96.53</td><td class="num">68.00</td><td class="num">83.33</td><td class="num">92.00</td></tr><tr><th scope="row">InternVL3.5-14B</th><td class="num">6.67</td><td class="num">17.20</td><td class="num">42.67</td><td class="num">23.47</td><td class="num">29.33</td><td class="num sep">95.87</td><td class="num">95.87</td><td class="num">92.53</td><td class="num">90.40</td><td class="num">93.60</td></tr><tr><th scope="row">InternVL3.5-38B</th><td class="num">10.67</td><td class="num">19.47</td><td class="num">55.20</td><td class="num">26.13</td><td class="num">29.47</td><td class="num sep">91.73</td><td class="num">95.20</td><td class="num">93.73</td><td class="num">93.07</td><td class="num">94.93</td></tr><tr><th scope="row">Qwen3-VL-8B</th><td class="num">9.73</td><td class="num">1.47</td><td class="num">0.67</td><td class="num">4.53</td><td class="num">2.40</td><td class="num sep">96.67</td><td class="num">91.20</td><td class="num">90.00</td><td class="num">95.20</td><td class="num">93.73</td></tr><tr><th scope="row">Qwen3.5-2B</th><td class="num">80.13</td><td class="num">0.53</td><td class="num">38.13</td><td class="num">1.47</td><td class="num">2.93</td><td class="num sep">83.60</td><td class="num">69.33</td><td class="num">75.47</td><td class="num">66.53</td><td class="num">71.47</td></tr><tr><th scope="row">Qwen3.5-4B</th><td class="num">1.47</td><td class="num">1.60</td><td class="num">43.33</td><td class="num">12.27</td><td class="num">3.20</td><td class="num sep">81.47</td><td class="num">76.67</td><td class="num">70.13</td><td class="num">80.93</td><td class="num">85.47</td></tr><tr><th scope="row">Qwen3.5-9B</th><td class="num">3.20</td><td class="num">3.07</td><td class="num">38.13</td><td class="num">25.33</td><td class="num">3.20</td><td class="num sep">54.40</td><td class="num">91.07</td><td class="num">71.87</td><td class="num">88.53</td><td class="num">92.00</td></tr><tr><th scope="row">Qwen3.5-35B</th><td class="num">1.60</td><td class="num">0.67</td><td class="num">7.47</td><td class="num">26.00</td><td class="num">0.93</td><td class="num sep">56.53</td><td class="num">87.60</td><td class="num">94.27</td><td class="num">93.20</td><td class="num">98.67</td></tr></tbody></table></div></div></details>
+      </div>
+    </section>
+
+    <!-- ================= ANALYSIS ================= -->
+    <section class="section" id="analysis">
+      <div class="wrap">
+        <p class="eyebrow">Analysis</p>
+        <h2>What each component contributes.</h2>
+        <p class="lead">The attack's effectiveness comes from several parts, not the tradeoff alone.</p>
+
+        <h3 style="font-size:19px;margin:28px 0 4px">Concept-related distractors beat generic ones</h3>
+        <div class="table-scroll"><table class="data"><caption>HarmBench ASR (%) with generic distractors (DI, 100 random LLaVA-CC3M images, the CS-DJ image source) versus generated keyword/phrase-related distractors (GDI). Paper Table&nbsp;4; gains computed from it.</caption><thead><tr><th scope="col" rowspan="2">Victim model</th><th scope="colgroup" colspan="3" class="num">TxtV</th><th scope="colgroup" colspan="3" class="num sep">TTV</th></tr><tr><th scope="col" class="num">DI</th><th scope="col" class="num">GDI</th><th scope="col" class="num">Gain</th><th scope="col" class="num sep">DI</th><th scope="col" class="num">GDI</th><th scope="col" class="num">Gain</th></tr></thead><tbody><tr><th scope="row">GPT-5.4-nano</th><td class="num">56.53</td><td class="num">62.40</td><td class="num gain">+5.87</td><td class="num sep">68.67</td><td class="num">74.67</td><td class="num gain">+6.00</td></tr><tr><th scope="row">Llama-3.2-11B-Vision-Instruct</th><td class="num">77.07</td><td class="num">89.60</td><td class="num gain">+12.53</td><td class="num sep">65.73</td><td class="num">82.93</td><td class="num gain">+17.20</td></tr><tr><th scope="row">Qwen3-VL-8B</th><td class="num">72.00</td><td class="num">91.20</td><td class="num gain">+19.20</td><td class="num sep">78.80</td><td class="num">93.73</td><td class="num gain">+14.93</td></tr><tr><th scope="row">Qwen3.5-4B</th><td class="num">64.13</td><td class="num">76.67</td><td class="num gain">+12.54</td><td class="num sep">84.40</td><td class="num">85.47</td><td class="num gain">+1.07</td></tr><tr><th scope="row">Qwen3.5-35B</th><td class="num">76.93</td><td class="num">87.60</td><td class="num gain">+10.67</td><td class="num sep">95.07</td><td class="num">98.67</td><td class="num gain">+3.60</td></tr><tr><th scope="row">InternVL3-8B</th><td class="num">80.40</td><td class="num">92.40</td><td class="num gain">+12.00</td><td class="num sep">88.13</td><td class="num">94.27</td><td class="num gain">+6.14</td></tr><tr><th scope="row">InternVL3.5-38B</th><td class="num">89.47</td><td class="num">95.20</td><td class="num gain">+5.73</td><td class="num sep">93.07</td><td class="num">94.93</td><td class="num gain">+1.86</td></tr></tbody></table></div>
+        <p class="note" style="margin-top:12px">Across all seven ablation models, GDI beats DI for both TxtV and TTV. The paper's broader claim about distractor type is supported on this ablation set, not on all 19 victims.</p>
+
+        <div class="finding" style="margin-top:36px">
+          <div class="finding-text">
+            <p class="finding-num">COMPONENTS</p>
+            <h3>Distractor count, indices, and prompt wording all matter.</h3>
+            <p><b>Distractor count:</b> adding a moderate number of keyword-related distractors helps; too many gradually hurt. TTV-GDI is best or near-best around K = 6.</p>
+            <p><b>Removed-character indices:</b> removing them cuts HarmBench ASR by 12.8–38.0 points across the evaluated Qwen3.5 settings — but attacks still succeed without them, so the indices help reconstruction without being its sole source.</p>
+            <p><b>Prompt wording:</b> de-aggressivising both the system and strategy prompts lowers average TTV-GDI ASR from 93.1% to 85.7% across four victims — substantial success remains.</p>
+          </div>
+          <figure class="fig">
+            <div class="fig-body"><img src="assets/figures/fig6-distractor-count.svg" width="365" height="280" alt="Line chart: TTV-GDI attack success rises as the number of distractor images grows from 0, peaks near 6, then declines, for InternVL3.5-38B and Qwen3.5-35B." loading="lazy" /></div>
+            <figcaption><b>Distractor count</b> — TTV-GDI ASR vs. number of distractor images (paper Fig. 6). K = 0 is TTV without distractors.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SAFETY / LIMITATIONS ================= -->
+    <section class="section alt" id="safety">
+      <div class="wrap">
+        <p class="eyebrow">Limitations &amp; responsible use</p>
+        <div class="split">
+          <h2>What this study does and does not claim.</h2>
+          <div class="prose" style="max-width:none">
+          <h3 style="margin-top:0">Scope</h3>
+          <p>The evaluation covers specific benchmarks, victim models, and input-level analyses. It does not evaluate decoding-time defenses or end-to-end success behind deployed input-filtering pipelines, and makes no robustness claim against such defenses. How the findings generalise across broader harm distributions, model families, and defense settings is left to future work.</p>
+          <h3>Why publish an attack</h3>
+          <p>The point is to inform safety evaluation: a model's own reconstruction ability can be turned against it, so evaluations should account for inputs whose harmful intent is concealed but still recoverable. The paper carries its reconstruction, detectability, and ablation analyses with this aim.</p>
+          <h3>What is withheld here</h3>
+          <p>This page retains the paper's framework illustration, including its research example, but withholds the procedural model response. The full manuscript carries its own content warning.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESOURCES ================= -->
+    <section class="section ink" id="resources">
+      <div class="wrap">
+        <p class="eyebrow">Resources</p>
+        <div class="res-grid">
+          <div class="poster-card">
+            <p>Poster</p>
+            <div class="ph">A redacted web version of the NeurIPS poster will be linked here once the case-study response is removed.</div>
+          </div>
+          <div>
+            <h2 style="margin-bottom:8px">Go deeper.</h2>
+            <p>The manuscript has the full protocol, baselines, metric definitions, extended analyses, and examples.</p>
+            <div class="res-list">
+              <a href="https://arxiv.org/abs/2605.05709" target="_blank" rel="noopener"><span><b>Research paper</b><small>arXiv · full manuscript</small></span><span class="arrow" aria-hidden="true">↗</span></a>
+              <div class="res-item"><span><b>Conference poster</b><small>redacted web version in preparation</small></span><span class="pending">Pending</span></div>
+              <a href="https://github.com/Farhamdur/CRJ" target="_blank" rel="noopener" aria-label="CRJ code repository (currently private; access restricted)"><span><b>Source code</b><small>github.com/Farhamdur/CRJ · private; public release pending</small></span><span class="pending">Restricted ↗</span></a>
+              <div class="res-item"><span><b>Presentation recording</b><small>official public recording link will be added when released</small></span><span class="pending">Pending</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CITE ================= -->
+    <section class="section" id="cite">
+      <div class="wrap">
+        <p class="eyebrow">Cite</p>
+        <div class="cite-grid">
+          <div>
+            <h2 style="margin-bottom:10px">Cite this work.</h2>
+            <p class="lead" style="font-size:16px">Please use the NeurIPS proceedings entry once it is available; the entry here is provisional.</p>
+            <button class="btn btn-copy" id="copy-bib" type="button"><span>Copy BibTeX</span></button>
+            <p class="acks">Acknowledgments: supported in part by the U.S. National Science Foundation (ECCS-2203214, IIS-1909644) and the U.S. Army Research Office (W911NF2210010). Views are the authors' own.</p>
+            <p aria-live="polite" id="copy-status" class="sr-live" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></p>
+          </div>
+          <pre class="bibtex" id="bibtex"><code>@inproceedings{reza2026conceal,
+  title     = {Conceal, Reconstruct, Jailbreak: Exploiting the Reconstruction--Concealment Tradeoff in {MLLMs}},
+  author    = {Reza, Md Farhamdur and Jin, Richeng and Wu, Tianfu and Dai, Huaiyu},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2605.05709}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <div>
+        <b>C<i>R</i>J</b>
+        <p>Research into multimodal model safety and robustness.</p>
+        <small>© 2026 the CRJ authors · project page</small>
+      </div>
+      <div class="footer-links">
+        <a href="#top">Back to top ↑</a>
+        <a href="https://arxiv.org/abs/2605.05709" target="_blank" rel="noopener">Paper ↗</a>
+        <a href="#cite">Cite</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
