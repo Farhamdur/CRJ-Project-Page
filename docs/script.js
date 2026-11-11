@@ -43,30 +43,57 @@
     });
   }
 
-  // ---- copy BibTeX (status announced via a dedicated live region) ----
+  // ---- Copy BibTeX without selecting the visible code block ----
   const copyBtn = document.getElementById('copy-bib');
   const bib = document.getElementById('bibtex');
   const live = document.getElementById('copy-status');
   if (copyBtn && bib) {
+    const label = copyBtn.querySelector('span');
     let timer;
-    const say = msg => { if (live) live.textContent = msg; };
-    copyBtn.addEventListener('click', async () => {
-      const text = bib.textContent.trim();
-      try {
-        await navigator.clipboard.writeText(text);
-        say('BibTeX copied to clipboard');
-        copyBtn.dataset.state = 'done';
-        const label = copyBtn.querySelector('span');
-        if (label) label.textContent = 'Copied';
-        clearTimeout(timer);
-        timer = setTimeout(() => { if (label) label.textContent = 'Copy BibTeX'; delete copyBtn.dataset.state; }, 2500);
-      } catch {
-        const r = document.createRange();
-        r.selectNodeContents(bib);
-        const sel = window.getSelection();
-        sel.removeAllRanges(); sel.addRange(r);
-        say('Select-all applied; press Ctrl or Cmd + C to copy');
+    const say = (message) => { if (live) live.textContent = message; };
+
+    async function copyBibTeX(text) {
+      // Clipboard API works when the page is served over HTTPS or localhost.
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch { /* Try the legacy fallback below. */ }
       }
+
+      // A hidden textarea prevents visible <pre> lines being selected.
+      const field = document.createElement('textarea');
+      field.value = text;
+      field.setAttribute('readonly', '');
+      field.style.cssText =
+        'position:fixed;top:0;left:-9999px;width:1px;height:1px;opacity:0;';
+      document.body.appendChild(field);
+      field.focus();
+      field.select();
+      let copied = false;
+      try { copied = document.execCommand('copy'); }
+      catch { copied = false; }
+      finally { field.remove(); }
+      return copied;
+    }
+
+    copyBtn.addEventListener('click', async () => {
+      // A leftover selection may be from the previous fallback implementation.
+      const selection = window.getSelection();
+      if (selection) selection.removeAllRanges();
+      const text = bib.textContent.trim();
+      const copied = await copyBibTeX(text);
+      clearTimeout(timer);
+      if (copied) {
+        if (label) label.textContent = 'Copied!';
+        say('BibTeX copied to clipboard.');
+      } else {
+        if (label) label.textContent = 'Copy unavailable';
+        say('Automatic copying is unavailable. You can select the BibTeX manually.');
+      }
+      timer = setTimeout(() => {
+        if (label) label.textContent = 'Copy BibTeX';
+      }, 2500);
     });
   }
 })();
